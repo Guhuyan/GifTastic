@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var topics = ["Cat", "Dog", "Bird"];
 
+    // The following function empties and remakes all the buttons each time it is called.
     function remakeButtons() {
       $(".btn").remove();
       for (let i = 0; i < topics.length; i++) {
@@ -14,30 +15,33 @@ $(document).ready(function(){
         event.preventDefault();
         let query = $("#query-input").val().trim();
           $("#query-input").val("");
-        let queryURL = `http://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
+        // Only query the API if the user input is valid.
+        if (query != "") {
+          let queryURL = `http://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
 
-        // Push to query value into topics array and call function to remake buttons
-        topics.push(query);
-        console.log(topics);
-        remakeButtons();
-
-        $.ajax({
-          url: queryURL,
-          method: "GET"
-          }).then(function(response) {
-            console.log("success got data", response);
-            let img = response.data;
-            // Loop through and fill with 10 query images
-            for (let i = 0; i < img.length; i++) {
-              // Using template literals to append elements, class, and attibutes into the <div> with class giphy-container.
-              $(".giphy-container").append(`
-              <div class="gif-item">
-              <img class="gif" src="${img[i].images.fixed_height_still.url}" image-still="${img[i].images.fixed_height_still.url}" image-animate="${img[i].images.fixed_height.url}" image-state="still" alt="${query} image">
-              <div class="rating">${img[i].rating}</div>
-              </div>
-              `)
-            }
-          });
+          // Push to query value into topics array and call function to remake buttons
+          topics.push(query);
+          console.log(topics);
+          remakeButtons();
+  
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+            }).then(function(response) {
+              console.log("success got data", response);
+              let img = response.data;
+              // Loop through and fill with 10 query images
+              for (let i = 0; i < img.length; i++) {
+                // Using template literals to append elements, class, and attibutes into the <div> with class giphy-container.
+                $(".giphy-container").append(`
+                <div class="gif-item">
+                <img class="gif" src="${img[i].images.fixed_height_still.url}" image-still="${img[i].images.fixed_height_still.url}" image-animate="${img[i].images.fixed_height.url}" image-state="still" alt="${query} image">
+                <div class="rating">${img[i].rating}</div>
+                </div>
+                `)
+              };
+            });
+        };
     });
 
     $(document).on("click", ".btn", function() {
