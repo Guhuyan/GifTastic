@@ -17,7 +17,7 @@ $(document).ready(function(){
           $("#query-input").val("");
         // Only query the API if the user input is valid.
         if (query != "") {
-          let queryURL = `https://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
+          let queryURL = `http://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
 
           // Push to query value into topics array and call function to remake buttons
           topics.push(query);
@@ -46,7 +46,7 @@ $(document).ready(function(){
 
     $(document).on("click", ".btn", function() {
       let query = $(this).attr("topic");
-      let queryURL = `https://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
+      let queryURL = `http://api.giphy.com/v1/gifs/search?api_key=tjLr9Q7fD2Ji4Z8r2WFxFSr4M8y10Ve7&q=${query}&rating=&limit=10`;
 
       $.ajax({
         url: queryURL,
